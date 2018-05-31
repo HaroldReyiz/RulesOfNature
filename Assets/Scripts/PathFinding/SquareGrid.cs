@@ -12,7 +12,11 @@ public class SquareGrid : IWeightedGraph< Location >
 		new Location(  1,  0 ),
 		new Location(  0, -1 ),
 		new Location( -1,  0 ),
-		new Location(  0,  1 )
+		new Location(  0,  1 )/*,
+		new Location(  1,  1 ), // These four are for diagonal movement.
+		new Location(  1, -1 ),
+		new Location( -1,  1 ),
+		new Location( -1, -1 )*/
 	};
 
 	public SquareGrid( int width, int height )
