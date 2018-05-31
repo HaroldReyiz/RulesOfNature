@@ -34,6 +34,42 @@ public class Enemy : MonoBehaviour
 			transform.position += dir * moveSpeed * Time.deltaTime;
 		}
 	}
+	private void OnDrawGizmos()
+	{
+		if( path == null ) // This prevents the null reference exception when the editor is open but game is not playing.
+		{
+			return;
+		}
+
+		for( int pathIdx = 1; pathIdx < path.Count; pathIdx++ )
+		{
+			Vector3 nodeBefore  = path[ pathIdx - 1 ].pos;
+			Vector3 nodeCurrent = path[ pathIdx		].pos;
+			Vector3 nodeAfter   = pathIdx == path.Count - 1 ? pathFinder.goal.pos : path[ pathIdx + 1 ].pos;
+
+			Gizmos.color = pathIdx < waypointIdx ? Color.black : Color.magenta;
+
+			// Draw main lines.
+			Vector3 posAbove = nodeCurrent + Vector3.up * 0.75f;
+			Vector3 dirNext = ( nodeAfter  - posAbove ).normalized;
+			Vector3 dirPrev = ( nodeBefore - posAbove ).normalized;
+			Gizmos.DrawLine( posAbove + ( dirPrev * 0.5f ),
+							 posAbove + ( dirNext * 0.5f ) );
+
+			// Draw arrows.
+			Vector3 dir = ( dirNext - dirPrev ).normalized;
+
+			Vector3 arrowStart = posAbove   + dirNext * 0.5f;
+			Vector3 arrowEnd   = arrowStart - dir * 0.5f;
+			Vector3 rightArrow = arrowEnd - arrowStart, leftArrow = arrowEnd - arrowStart;
+			// Right arrow.
+			rightArrow = Quaternion.Euler( 0.0f, +35.0f, 0.0f ) * rightArrow;
+			Gizmos.DrawLine( arrowStart, arrowStart + rightArrow );
+			// Left arrow.
+			leftArrow  = Quaternion.Euler( 0.0f, -35.0f, 0.0f ) * leftArrow;
+			Gizmos.DrawLine( arrowStart, arrowStart + leftArrow );
+		}
+	}
 
 	/// Other Methods.
 	public void TakeDamage( float amount )

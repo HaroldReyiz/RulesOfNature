@@ -9,12 +9,12 @@ public class PathFinder : MonoBehaviour
 	public	GameObject									nodesParent;
 	public  int											gridWidth;
 	public  int											gridHeight;
+	public  Location									goal;
 
 	[ HideInInspector ]
 	public  Dictionary< Vector3, List< Location > >		enemyPaths;
 
 	private Dictionary< Vector3, AStarSearch >			searchResults;
-	private Location									goal;
 	private SquareGrid									grid;
 	private Dictionary< Location, Node >				nodesDict;
 
@@ -72,7 +72,7 @@ public class PathFinder : MonoBehaviour
 			searchResults.Add( enemySpawnpoint, new AStarSearch( grid, new Location( enemySpawnpoint ), goal ) );
 		}
 
-		ReconstructPaths(); // Also display them in the editor via gizmos.
+		ReconstructPaths();
 	}
 
 	/// Other methods.
@@ -116,26 +116,13 @@ public class PathFinder : MonoBehaviour
 		Location pointer = searchResult.goal;
 		List< Location > path = new List< Location >();
 
-		Vector3 nodeBefore = searchResult.cameFrom[ searchResult.cameFrom[ searchResult.goal ] ].pos;
-		Vector3 nodeAfter  = searchResult.goal.pos;
-
 		while( !searchResult.cameFrom[ pointer ].Equals( searchResult.start ) )
 		{
-			if( display )
-			{
-				nodesDict[ searchResult.cameFrom[ pointer ] ].VisualizePathNode( nodeBefore, nodeAfter );
-			}
-
 			path.Add( searchResult.cameFrom[ pointer ] );
 			pointer = searchResult.cameFrom[ pointer ]; // Increment the location pointer.
-
-			nodeBefore = searchResult.cameFrom[ searchResult.cameFrom[ pointer ] ].pos;
-			nodeAfter  = pointer.pos;
 		}
 
 		path.Add( searchResult.cameFrom[ pointer ] ); // Add the start node to the path.
-		nodeBefore = searchResult.cameFrom[ pointer ].pos;
-		nodesDict[ searchResult.cameFrom[ pointer ] ].VisualizePathNode( nodeBefore, nodeAfter );
 		path.Reverse();
 		return path;
 	}
