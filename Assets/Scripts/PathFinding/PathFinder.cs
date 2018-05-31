@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,17 +6,20 @@ using UnityEngine;
 /// </summary>
 public class PathFinder : MonoBehaviour 
 {
-	public	GameObject						nodesParent;
-	public  int								gridWidth;
-	public  int								gridHeight;
+	public	GameObject									nodesParent;
+	public  int											gridWidth;
+	public  int											gridHeight;
 
-	private Location						goal;
-	private List< AStarSearch >				searchResults;
-	private SquareGrid						grid;
-	private Dictionary< Location, Node >	nodesDict;
+	[ HideInInspector ]
+	public  Dictionary< Vector3, List< Location > >		enemyPaths;
+
+	private Dictionary< Vector3, AStarSearch >			searchResults;
+	private Location									goal;
+	private SquareGrid									grid;
+	private Dictionary< Location, Node >				nodesDict;
 
 	/// Unity Callbacks.
-	private void Start()
+	private void Awake() // Use awake method so that all enemy paths are ready by the time start methods are being called.
 	{
 		// Get human spawnpoint (a.k.a. "Goal").
 		GameObject humanGO = GameObject.FindGameObjectWithTag( "Human" );
@@ -28,7 +29,7 @@ public class PathFinder : MonoBehaviour
 		// Get enemy spawnpoints (a.k.a. "Start(s)").
 		GameObject[] enemyGOs = GameObject.FindGameObjectsWithTag( "Enemy" );
 		Vector3[] enemySpawnpoints = new Vector3[ enemyGOs.Length ];
-		for( int enIdx = 0 ; enIdx < enemySpawnpoints.Length ; enIdx++ )
+		for( int enIdx = 0; enIdx < enemySpawnpoints.Length; enIdx++ )
 		{
 			enemySpawnpoints[ enIdx ] = enemyGOs[ enIdx ].transform.position;
 		}
@@ -36,18 +37,19 @@ public class PathFinder : MonoBehaviour
 		// Get ally towers.
 		GameObject[] allyTowerGOs = GameObject.FindGameObjectsWithTag( "AllyTower" );
 		Vector3[] allyTowerCoords = new Vector3[ allyTowerGOs.Length ];
-		for( int alyIdx = 0 ; alyIdx < allyTowerCoords.Length ; alyIdx++ )
+		for( int alyIdx = 0; alyIdx < allyTowerCoords.Length; alyIdx++ )
 		{
 			allyTowerCoords[ alyIdx ] = allyTowerGOs[ alyIdx ].transform.position;
 		}
 
-		// Inialize AStarSearch(es) & the grid.
-		searchResults = new List< AStarSearch >( enemySpawnpoints.Length );
-		grid          = new SquareGrid( gridWidth, gridHeight );
+		// Inialize enemy paths, AStarSearch(es) & the grid.
+		enemyPaths = new Dictionary<Vector3, List<Location>>( enemySpawnpoints.Length );
+		searchResults = new Dictionary<Vector3, AStarSearch>( enemySpawnpoints.Length );
+		grid = new SquareGrid( gridWidth, gridHeight );
 
 		// Initialize nodes dictionary.
-		Node[] nodes  = nodesParent.GetComponentsInChildren< Node >();
-		nodesDict     = new Dictionary< Location, Node >( nodes.Length );
+		Node[] nodes = nodesParent.GetComponentsInChildren<Node>();
+		nodesDict = new Dictionary<Location, Node>( nodes.Length );
 
 		foreach( Node node in nodes )
 		{
@@ -61,6 +63,21 @@ public class PathFinder : MonoBehaviour
 		}
 
 		// Initialize costmaps, obstacles etc. for the grid.
+		ProcessNodeTypes();
+
+		// Use A* for each enemy and determine shortest paths towards the goal.
+		for( int enIdx = 0; enIdx < enemySpawnpoints.Length; enIdx++ )
+		{
+			Vector3 enemySpawnpoint = enemySpawnpoints[ enIdx ];
+			searchResults.Add( enemySpawnpoint, new AStarSearch( grid, new Location( enemySpawnpoint ), goal ) );
+		}
+
+		ReconstructPaths(); // Also display them in the editor via gizmos.
+	}
+
+	/// Other methods.
+	private void ProcessNodeTypes()
+	{
 		foreach( var nodeLocPair in nodesDict )
 		{
 			Node node = nodeLocPair.Value;
@@ -69,7 +86,7 @@ public class PathFinder : MonoBehaviour
 				case NodeType.Empty:
 					if( !grid.costMaps.ContainsKey( node.cost ) )
 					{
-						grid.costMaps.Add( node.cost, new HashSet< Location >() );
+						grid.costMaps.Add( node.cost, new HashSet<Location>() );
 					}
 					grid.costMaps[ node.cost ].Add( new Location( node.transform.position ) );
 					break;
@@ -77,7 +94,7 @@ public class PathFinder : MonoBehaviour
 					grid.obstacles.Add( new Location( node.transform.position ) );
 					break;
 				case NodeType.AllyUnits:
-					// TODO: Is this a cost or an obstacle?
+					// TODO: Add this as a new waypoint so that the enemies walk towards ally units and engage them ?
 					break;
 				case NodeType.Human:
 					// TODO: Is this a cost or an obstacle?
@@ -86,22 +103,12 @@ public class PathFinder : MonoBehaviour
 					break;
 			}
 		}
-
-		// Use A* for each enemy and determine shortest paths towards the goal.
-		foreach( Vector3 enemySpawnpoint in enemySpawnpoints )
-		{
-			searchResults.Add( new AStarSearch( grid, new Location( enemySpawnpoint ), goal ) );
-		}
-
-		DisplayAllEnemyPaths( goal );
 	}
-
-	/// Other methods.
-	private void DisplayAllEnemyPaths( Location goal )
+	private void ReconstructPaths()
 	{
-		foreach( AStarSearch searchResult in searchResults )
+		foreach( var pair in searchResults )
 		{
-			ReconstructPath( searchResult, true );
+			enemyPaths.Add( pair.Key, ReconstructPath( pair.Value, true ) );
 		}
 	}
 	private List< Location > ReconstructPath( AStarSearch searchResult, bool display = false )
