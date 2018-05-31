@@ -20,46 +20,28 @@ public class Node : MonoBehaviour
 	/// Unity Callbacks.
 	private void OnDrawGizmos()
 	{
-		if( type == NodeType.Human )
+		if( isPathNode )
 		{
-			Gizmos.color = Color.yellow;
-			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
-		}
-		else if( type == NodeType.AllyTower )
-		{
-			Gizmos.color = Color.green;
-			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
-		}
-		else if( type == NodeType.AllyUnits )
-		{
-			Gizmos.color = Color.blue;
-			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
-		}
-		else // NodeType.empty.
-		{
-			if( isPathNode )
-			{
-				Gizmos.color = Color.magenta;
-				// Draw main lines.
-				Vector3 posAbove = transform.position + Vector3.up * 0.75f;
-				Vector3 dirNext = ( this.nodeAfter  - posAbove ).normalized;
-				Vector3 dirPrev = ( this.nodeBefore - posAbove ).normalized;
-				Gizmos.DrawLine( posAbove + ( dirPrev * transform.localScale.x / 2.0f ),
-								 posAbove + ( dirNext * transform.localScale.x / 2.0f ) );
+			Gizmos.color = Color.magenta;
+			// Draw main lines.
+			Vector3 posAbove = transform.position + Vector3.up * 0.75f;
+			Vector3 dirNext = ( this.nodeAfter  - posAbove ).normalized;
+			Vector3 dirPrev = ( this.nodeBefore - posAbove ).normalized;
+			Gizmos.DrawLine( posAbove + ( dirPrev * transform.localScale.x / 2.0f ),
+								posAbove + ( dirNext * transform.localScale.x / 2.0f ) );
 
-				// Draw arrows.
-				Vector3 dir = ( dirNext - dirPrev ).normalized;
+			// Draw arrows.
+			Vector3 dir = ( dirNext - dirPrev ).normalized;
 
-				Vector3 arrowStart = posAbove   + dirNext * 0.5f;
-				Vector3 arrowEnd   = arrowStart - dir * 0.5f;
-				Vector3 rightArrow = arrowEnd - arrowStart, leftArrow = arrowEnd - arrowStart;
-				// Right arrow.
-				rightArrow = Quaternion.Euler( 0.0f, +35.0f, 0.0f ) * rightArrow;
-				Gizmos.DrawLine( arrowStart, arrowStart + rightArrow );
-				// Left arrow.
-				leftArrow  = Quaternion.Euler( 0.0f, -35.0f, 0.0f ) * leftArrow;
-				Gizmos.DrawLine( arrowStart, arrowStart + leftArrow );
-			}
+			Vector3 arrowStart = posAbove   + dirNext * 0.5f;
+			Vector3 arrowEnd   = arrowStart - dir * 0.5f;
+			Vector3 rightArrow = arrowEnd - arrowStart, leftArrow = arrowEnd - arrowStart;
+			// Right arrow.
+			rightArrow = Quaternion.Euler( 0.0f, +35.0f, 0.0f ) * rightArrow;
+			Gizmos.DrawLine( arrowStart, arrowStart + rightArrow );
+			// Left arrow.
+			leftArrow  = Quaternion.Euler( 0.0f, -35.0f, 0.0f ) * leftArrow;
+			Gizmos.DrawLine( arrowStart, arrowStart + leftArrow );
 		}
 	}
 
