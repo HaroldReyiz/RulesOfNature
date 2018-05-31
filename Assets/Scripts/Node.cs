@@ -2,7 +2,7 @@
 
 public enum NodeType
 {
-	empty, allyTower, allyUnits, human // TODO: Add different terrain types with different traversal costs.
+	Empty, AllyTower, AllyUnits, Human // TODO: Add different terrain types with different traversal costs.
 }
 
 public class Node : MonoBehaviour
@@ -20,17 +20,17 @@ public class Node : MonoBehaviour
 	/// Unity Callbacks.
 	private void OnDrawGizmos()
 	{
-		if( type == NodeType.human )
+		if( type == NodeType.Human )
 		{
 			Gizmos.color = Color.yellow;
 			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
 		}
-		else if( type == NodeType.allyTower )
+		else if( type == NodeType.AllyTower )
 		{
 			Gizmos.color = Color.green;
 			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
 		}
-		else if( type == NodeType.allyUnits )
+		else if( type == NodeType.AllyUnits )
 		{
 			Gizmos.color = Color.blue;
 			Gizmos.DrawWireCube( transform.position + GIZMO_OFFSET, GIZMO_SCALE );
