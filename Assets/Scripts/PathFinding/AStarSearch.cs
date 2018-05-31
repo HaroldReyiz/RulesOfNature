@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 /* NOTE about types: in the main article,
@@ -13,6 +12,8 @@ public class AStarSearch
 {
 	public Dictionary< Location, Location > cameFrom  = new Dictionary< Location, Location >();
 	public Dictionary< Location, float    > costSoFar = new Dictionary< Location, float    >();
+	public Location start;
+	public Location goal;
 
 	// Note: a generic version of A* would abstract over Location and also Heuristic
 	static public float Heuristic( Location a, Location b )
@@ -21,7 +22,10 @@ public class AStarSearch
 	}
 	public AStarSearch( IWeightedGraph< Location > graph, Location start, Location goal )
 	{
-		var frontier = new PriorityQueue< Location >();
+		this.start = start;
+		this.goal  = goal;
+
+		PriorityQueue< Location > frontier = new PriorityQueue< Location >();
 		frontier.Enqueue( start, 0 );
 
 		cameFrom[ start ] = start;
@@ -38,9 +42,8 @@ public class AStarSearch
 
 			foreach( var next in graph.Neighbors( current ) )
 			{
-				float newCost = costSoFar[ current ] + graph.Cost( current, next );
-				if( !costSoFar.ContainsKey( next )
-					|| newCost < costSoFar[ next ] )
+				float newCost = costSoFar[ current ] + graph.Cost( current );
+				if( !costSoFar.ContainsKey( next ) || newCost < costSoFar[ next ] )
 				{
 					costSoFar[ next ] = newCost;
 					float priority = newCost + Heuristic( next, goal );
