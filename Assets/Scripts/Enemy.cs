@@ -2,33 +2,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour 
 {
-	public	float	health = 100.0f;
-	public  float   moveSpeed;
+	//// Fields ////
+	[ Header( "Attributes" ) ]
+	public	float			m_health = 100.0f;
+	public  float			m_moveSpeed;
 
+	[ Header( "Unity Setup" ) ]
+	public  GameObject		m_goal;
+	public  NavMeshAgent    m_Agent;
+
+	//// Unity Callbacks ////
 	private void Start()
 	{
 	}
-
 	private void Update()
 	{
-		// TODO: Follow the path determined by pathfinding algorithm here.
+		m_Agent.SetDestination( m_goal.transform.position );
 	}
 
-	public void TakeDamage( float amount )
-	{
-		health -= amount;
-
-		if( health <= 0.0f )
-		{
-			Die();
-		}
-	}
-
-	private void Die()
-	{
-		Destroy( gameObject );
-	}
+	//// Other methods ////
 }
