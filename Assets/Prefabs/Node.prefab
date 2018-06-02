@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23747990867761206}
   - component: {fileID: 65203700679595188}
   - component: {fileID: 114204081131251628}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,4 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796c5df24e8f53248a8d08f784ba8fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_type: 0
+  m_allyTowerPrefab: {fileID: 1353974441683476, guid: 7bd62326ac41b9d419d414b15f5cfa75,
+    type: 2}
+  m_navMeshSurface: {fileID: 0}
