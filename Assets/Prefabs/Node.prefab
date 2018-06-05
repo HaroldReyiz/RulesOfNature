@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416516370328104}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalPosition: {x: 15, y: -0.25, z: 13}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -108,6 +108,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 796c5df24e8f53248a8d08f784ba8fa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_allyTowerPrefab: {fileID: 1353974441683476, guid: 7bd62326ac41b9d419d414b15f5cfa75,
-    type: 2}
-  m_navMeshSurface: {fileID: 0}
+  m_TowerUIWheelCanvas: {fileID: 0}

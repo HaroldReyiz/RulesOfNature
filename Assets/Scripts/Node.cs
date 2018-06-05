@@ -1,13 +1,14 @@
 ﻿using UnityEngine.EventSystems;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class Node : MonoBehaviour
 {
 	//// Fields ////
-	[ Header( "Unity Setup" ) ]
-	public  GameObject		m_allyTowerPrefab;
-	public  NavMeshSurface  m_navMeshSurface;
+	[ Header( "UI Setup" ) ]
+	public          GameObject      m_NodeSelectedParticleEffect;
+	public          GameObject      m_PartialGrid;
+
+	private static	Vector3         PARTICLE_EFFECT_VERTICAL_OFFSET       = new Vector3( 0.0f, 0.7f, 0.0f );
 
 	//// Unity Callbacks ////
 	private void Start()
@@ -18,17 +19,34 @@ public class Node : MonoBehaviour
 	}
 	private void OnMouseDown()
 	{
-		// TODO: Uncomment this when UI (and therefore an EventSystem object) is added to the project.
-		//if( EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
-		//{
-		//	return;
-		//}
+		if( EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
+		{
+			return;
+		}
 
-		// Create a new ally tower on this node.
-		Instantiate( m_allyTowerPrefab, transform.position + new Vector3( 0.0f, 0.5f, 0.0f ), Quaternion.identity );
+		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enoug money */ )
+		{
+			BuildManager.INSTANCE.BuildTower( transform.position );
+		}
+	}
+	private void OnMouseEnter()
+	{
+		if( EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
+		{
+			return;
+		}
 
-		// Update the nav mesh.
-		m_navMeshSurface.UpdateNavMesh( m_navMeshSurface.navMeshData ); 
+		// Move the preselected particle effect here, play it.
+		m_NodeSelectedParticleEffect.transform.position = transform.position + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_NodeSelectedParticleEffect.SetActive( true );
+
+		// Move and set active the partial grid.
+		m_PartialGrid.transform.position = transform.position + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_PartialGrid.SetActive( true );
+	}
+	private void OnMouseExit()
+	{
+		m_NodeSelectedParticleEffect.SetActive( false );
 	}
 
 	//// Other methods ////
