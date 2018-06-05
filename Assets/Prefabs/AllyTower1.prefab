@@ -109,7 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27e50755f84416546ba7155789978ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_name: Ally Tower 1
+  m_TowerName: Ally Tower 1
+  m_AttacksPerSecond: 1
+  m_Range: 5
+  m_BulletPrefab: {fileID: 1604943888975274, guid: 08361d1c29d73ec438f7d1742be4b2f8,
+    type: 2}
 --- !u!208 &208703641554621288
 NavMeshObstacle:
   m_ObjectHideFlags: 1

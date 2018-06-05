@@ -45,7 +45,7 @@ public class BuildManager : MonoBehaviour
 		m_TowerDict = new Dictionary< string, GameObject >( m_AllyTowerPrefabs.Length );
 		for( int towerIdx = 0; towerIdx < m_AllyTowerPrefabs.Length; towerIdx++ )
 		{
-			m_TowerDict.Add( m_AllyTowerPrefabs[ towerIdx ].m_name, m_AllyTowerPrefabs[ towerIdx ].gameObject );
+			m_TowerDict.Add( m_AllyTowerPrefabs[ towerIdx ].m_TowerName, m_AllyTowerPrefabs[ towerIdx ].gameObject );
 		}
 	}
 	private void Update()

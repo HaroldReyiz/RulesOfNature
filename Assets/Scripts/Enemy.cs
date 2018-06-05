@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour 
@@ -25,4 +22,20 @@ public class Enemy : MonoBehaviour
 	}
 
 	//// Other methods ////
+	public void TakeDamage( float amount )
+	{
+		m_health -= amount;
+
+		if( m_health <= 0.0f )
+		{
+			Die();
+		}
+	}
+	private void Die()
+	{
+		Debug.Log( string.Format( "Enemy {0} died.", name ) );
+		Destroy( this );
+		gameObject.SetActive( false );
+		enabled = false;
+	}
 }
