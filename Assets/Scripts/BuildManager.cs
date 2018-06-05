@@ -13,10 +13,13 @@ public class BuildManager : MonoBehaviour
 	public			AllyTower[]                         m_AllyTowerPrefabs;
 	public          NavMeshSurface						m_NavMeshSurface;
 	public          Transform							m_AllyTowersParent;
+	public          GameObject							m_NodeSelectedParticleEffect;
+	public          GameObject							m_PartialGrid;
 
 	private         Dictionary< string, GameObject >    m_TowerDict;
 	private         string                              m_TowerToBuild;
 	private         bool                                m_InBuildMode;
+	private static  Vector3								PARTICLE_EFFECT_VERTICAL_OFFSET = new Vector3( 0.0f, 0.7f, 0.0f );
 
 	//// Properties ////
 	[ HideInInspector ]
@@ -47,9 +50,30 @@ public class BuildManager : MonoBehaviour
 	}
 	private void Update()
 	{
+		// Exit build mode if ESC was pressed.
+		if( Input.GetKeyDown( KeyCode.Escape ) )
+		{
+			m_InBuildMode = false;
+			DeactivateSelectionGizmos();
+		}
 	}
 	
 	//// Other methods ////
+	public void ActivateSelectionGizmos( Vector3 nodePos )
+	{
+		// Move the preselected particle effect here, play it.
+		m_NodeSelectedParticleEffect.transform.position = nodePos + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_NodeSelectedParticleEffect.SetActive( true );
+
+		// Move and set active the partial grid.
+		m_PartialGrid.transform.position = nodePos + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_PartialGrid.SetActive( true );
+	}
+	public void DeactivateSelectionGizmos()
+	{
+		m_NodeSelectedParticleEffect.SetActive( false );
+		m_PartialGrid.SetActive( false );
+	}
 	public void SelectTowerToBuild( string towerTypeName )
 	{
 		m_TowerToBuild = towerTypeName;

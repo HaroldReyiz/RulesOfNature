@@ -242,6 +242,8 @@ MonoBehaviour:
   - {fileID: 114344015314402614, guid: 1fbb10d8c90694f4cb20b748f1c9171d, type: 2}
   m_NavMeshSurface: {fileID: 439453977}
   m_AllyTowersParent: {fileID: 58042977}
+  m_NodeSelectedParticleEffect: {fileID: 57884152}
+  m_PartialGrid: {fileID: 1051740529}
 --- !u!4 &9525476
 Transform:
   m_ObjectHideFlags: 0
