@@ -2140,7 +2140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &58462862
 Prefab:
@@ -31004,7 +31004,7 @@ Transform:
   - {fileID: 1556798147}
   - {fileID: 401858156}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &706131099
 Prefab:
@@ -46729,7 +46729,7 @@ Transform:
   m_Children:
   - {fileID: 19229287}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1052312633 stripped
 Transform:
@@ -55811,7 +55811,7 @@ RectTransform:
   m_Children:
   - {fileID: 1824397910}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -70347,7 +70347,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4428197913074734, guid: 2831fd728c552d94f941c8f16f72b9bf, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114887469069646044, guid: 2831fd728c552d94f941c8f16f72b9bf,
         type: 2}
@@ -71544,7 +71544,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1681878349
 Prefab:
@@ -73338,7 +73338,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4804970712247818, guid: c28c0f1ce3891ac4da6d7c78aa726c8d, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c28c0f1ce3891ac4da6d7c78aa726c8d, type: 2}
@@ -87241,7 +87241,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4893314692743440, guid: fd9261bb6992cec41bd2fcfa851da6d7, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fd9261bb6992cec41bd2fcfa851da6d7, type: 2}
