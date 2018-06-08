@@ -16,5 +16,5 @@ public class InitialNavMeshGeneration : MonoBehaviour
 		m_navMeshSurface.BuildNavMesh();
 	}
 
-	//// Other methods ////
+	//// Other Methods ////
 }

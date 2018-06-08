@@ -41,5 +41,5 @@ public class Node : MonoBehaviour
 		BuildManager.INSTANCE.DeactivateSelectionGizmos();
 	}
 
-	//// Other methods ////
+	//// Other Methods ////
 }

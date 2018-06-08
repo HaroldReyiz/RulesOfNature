@@ -58,7 +58,7 @@ public class BuildManager : MonoBehaviour
 		}
 	}
 	
-	//// Other methods ////
+	//// Other Methods ////
 	public void ActivateSelectionGizmos( Vector3 nodePos )
 	{
 		// Move the preselected particle effect here, play it.

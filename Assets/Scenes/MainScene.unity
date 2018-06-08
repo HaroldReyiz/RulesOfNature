@@ -70368,6 +70368,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114887469069646044, guid: 2831fd728c552d94f941c8f16f72b9bf,
+        type: 2}
+      propertyPath: m_health
+      value: 2000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2831fd728c552d94f941c8f16f72b9bf, type: 2}
   m_IsPrefabParent: 0
@@ -71388,6 +71393,56 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e792ffd27052dd40a9b9b1722b3fe99, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1674270204
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1674270205}
+  - component: {fileID: 1674270206}
+  m_Layer: 0
+  m_Name: PoolInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1674270205
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1674270204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1674270206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1674270204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06c6127cafe129c41870164b8334f8f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ObjectsToBePooled:
+  - m_PrefabToBePooled: {fileID: 1604943888975274, guid: 08361d1c29d73ec438f7d1742be4b2f8,
+      type: 2}
+    m_StartingQuantity: 15
+  - m_PrefabToBePooled: {fileID: 1604943888975274, guid: 71b5e431fddb71f46b736b71b8b4296c,
+      type: 2}
+    m_StartingQuantity: 15
+  - m_PrefabToBePooled: {fileID: 1604943888975274, guid: ceea0999327c92f46bb586c60886945a,
+      type: 2}
+    m_StartingQuantity: 15
 --- !u!4 &1676490064 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4428197913074734, guid: 3e792ffd27052dd40a9b9b1722b3fe99,

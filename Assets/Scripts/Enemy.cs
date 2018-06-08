@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 		m_Agent.SetDestination( m_goal.transform.position );
 	}
 
-	//// Other methods ////
+	//// Other Methods ////
 	public void TakeDamage( float amount )
 	{
 		m_health -= amount;

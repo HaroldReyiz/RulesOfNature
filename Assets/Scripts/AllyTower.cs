@@ -43,7 +43,7 @@ public class AllyTower : MonoBehaviour
 		Gizmos.DrawWireSphere( transform.position, m_Range );
 	}
 
-	//// Other methods ////
+	//// Other Methods ////
 	private void AcquireTarget()
 	{
 		float minDistance = float.PositiveInfinity;
@@ -62,8 +62,8 @@ public class AllyTower : MonoBehaviour
 	}
 	private void Attack()
 	{
-		Vector3 dir = m_Target.transform.position - transform.position;
-		GameObject bulletGO = Instantiate( m_BulletPrefab, transform.position, Quaternion.LookRotation( dir ) );
+		Quaternion orientation = Quaternion.LookRotation( ( m_Target.transform.position - transform.position ).normalized );
+		GameObject bulletGO = PoolManager.Spawn( m_BulletPrefab, transform.position, orientation );
 		bulletGO.GetComponent< Bullet >().m_Target = m_Target;
 	}
 }

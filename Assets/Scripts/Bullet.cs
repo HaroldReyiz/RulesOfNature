@@ -19,9 +19,7 @@ public class Bullet : MonoBehaviour
 	{
 		if( m_Target == null )
 		{
-			Destroy( this );
-			gameObject.SetActive( false );
-			enabled = false;
+			PoolManager.Despawn( gameObject );
 			return;
 		}
 
@@ -37,12 +35,10 @@ public class Bullet : MonoBehaviour
 		}
 	}
 
-	//// Other methods ////
+	//// Other Methods ////
 	private void CollideWithTarget()
 	{
 		m_Target.TakeDamage( m_Damage );
-		Destroy( this );
-		gameObject.SetActive( false );
-		enabled = false;
+		PoolManager.Despawn( gameObject );
 	}
 }
