@@ -6,12 +6,6 @@ public class Node : MonoBehaviour
 	//// Fields ////
 
 	//// Unity Callbacks ////
-	private void Start()
-	{
-	}
-	private void Update()
-	{
-	}
 	private void OnMouseDown()
 	{
 		if( EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.

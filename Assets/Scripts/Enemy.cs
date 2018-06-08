@@ -5,28 +5,29 @@ public class Enemy : MonoBehaviour
 {
 	//// Fields ////
 	[ Header( "Attributes" ) ]
-	public	float			m_health = 100.0f;
-	public  float			m_moveSpeed;
+	public			float			m_Health = 100.0f;
+	public			float			m_MoveSpeed;
 
 	[ Header( "Unity Setup" ) ]
-	public  GameObject		m_goal;
-	public  NavMeshAgent    m_Agent;
+	public static	GameObject		m_Goal;
+	public			NavMeshAgent    m_Agent;
 
 	//// Unity Callbacks ////
 	private void Start()
 	{
+		m_Goal = GameObject.FindGameObjectWithTag( "Goal" );
 	}
 	private void Update()
 	{
-		m_Agent.SetDestination( m_goal.transform.position );
+		m_Agent.SetDestination( m_Goal.transform.position );
 	}
 
 	//// Other Methods ////
 	public void TakeDamage( float amount )
 	{
-		m_health -= amount;
+		m_Health -= amount;
 
-		if( m_health <= 0.0f )
+		if( m_Health <= 0.0f )
 		{
 			Die();
 		}
@@ -34,8 +35,7 @@ public class Enemy : MonoBehaviour
 	private void Die()
 	{
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
-		Destroy( this );
-		gameObject.SetActive( false );
-		enabled = false;
+		PoolManager.Despawn( gameObject );
+		WaveSpawner.INSTANCE.OnEnemyDied();
 	}
 }

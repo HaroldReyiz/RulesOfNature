@@ -11,10 +11,6 @@ public class Bullet : MonoBehaviour
 	public  Enemy		m_Target;
 
 	//// Unity Callbacks ////
-	private void Start()
-	{
-		
-	}
 	private void Update()
 	{
 		if( m_Target == null )
