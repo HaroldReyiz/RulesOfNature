@@ -42,7 +42,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 //// Singleton Class ////
-public class PoolManager
+public class PoolsManager
 {
 	//// Fields ////
 	// You can avoid resizing of the Stack's internal data by setting this to a number equal to or greater to what you expect 
@@ -58,10 +58,10 @@ public class PoolManager
 	class Pool
 	{
 		//// Fields ////
-		public  readonly HashSet< int >			m_MemberIDs;
+		public  readonly	HashSet< int >			m_MemberIDs;
 
-		private readonly Stack< GameObject >	m_InactiveStack;
-		private readonly GameObject				m_PooledPrefab;  // The prefab that we are pooling
+		private readonly	Stack< GameObject >		m_InactiveStack;
+		private readonly	GameObject				m_PooledPrefab;  // The prefab that we are pooling
 
 		//// Constructors ////
 		public Pool( GameObject prefab, int initialQty )

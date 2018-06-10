@@ -82,7 +82,7 @@ public class BuildManager : MonoBehaviour
 	public void BuildTower( Vector3 buildPosition )
 	{
 		// Create a new ally tower on this node.
-		Instantiate( m_TowerDict[ m_TowerToBuild ], buildPosition + new Vector3( 0.0f, 0.5f, 0.0f ), Quaternion.identity,
+		Instantiate( m_TowerDict[ m_TowerToBuild ], buildPosition + new Vector3( 0.0f, 0.75f, 0.0f ), Quaternion.identity,
 					 m_AllyTowersParent );
 
 		// Update the nav mesh.

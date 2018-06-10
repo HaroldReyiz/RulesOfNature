@@ -11649,6 +11649,7 @@ MonoBehaviour:
       m_EnemyCount: 3
       m_SpawnPosition: {x: 0, y: 0, z: 15}
     m_TimeToNextWave: 0
+  m_ActiveEnemies: []
 --- !u!114 &268287400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18030,7 +18031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a669c85f40fce4abcdcc5a2dba9110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_navMeshSurface: {fileID: 439453977}
+  m_NavMeshSurface: {fileID: 439453977}
 --- !u!1001 &440464085
 Prefab:
   m_ObjectHideFlags: 0

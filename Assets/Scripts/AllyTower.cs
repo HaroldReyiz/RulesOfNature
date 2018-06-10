@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using ObserverPattern;
+using System.Collections.Generic;
 
-public class AllyTower : MonoBehaviour 
+public class AllyTower : MonoBehaviour, IObserver
 {
 	//// Fields ////
 	[ Header( "Attributes" ) ]
@@ -12,16 +14,15 @@ public class AllyTower : MonoBehaviour
 	public          GameObject      m_BulletPrefab;
 
 	private         float		    m_AttackInterval;
-	private			Enemy[]			m_Enemies;
 	private			Enemy			m_Target;
 	private         bool            m_IsAttacking;
+	private         List< Enemy >   m_ActiveEnemies;
 
 	//// Unity Callbacks ////
 	private void Start()
 	{
 		m_AttackInterval = 1.0f / m_AttacksPerSecond;
-
-		m_Enemies = FindObjectsOfType< Enemy >();
+		m_ActiveEnemies = FindObjectOfType< WaveSpawner >().m_ActiveEnemies;
 	}
 	private void Update()
 	{
@@ -43,18 +44,24 @@ public class AllyTower : MonoBehaviour
 		Gizmos.DrawWireSphere( transform.position, m_Range );
 	}
 
+	//// IObserver Interface ////
+	void IObserver.OnNotify( int param )
+	{
+		m_Target = null; // You got to let him go!
+	}
 	//// Other Methods ////
 	private void AcquireTarget()
 	{
 		float minDistance = float.PositiveInfinity;
-		foreach( Enemy enemy in m_Enemies )
+		foreach( Enemy enemy in m_ActiveEnemies )
 		{
-			if( enemy != null )
+			if( enemy.isActiveAndEnabled )
 			{
 				float distance = Vector3.Distance( transform.position, enemy.transform.position );
 				if( distance < minDistance && distance <= m_Range && enemy.gameObject.activeSelf )
 				{
 					m_Target = enemy;
+					( m_Target as IObservable ).Subscribe( this );
 					minDistance = distance;
 				}
 			}
@@ -62,8 +69,13 @@ public class AllyTower : MonoBehaviour
 	}
 	private void Attack()
 	{
+		if( m_Target == null )
+		{
+			return;
+		}
+
 		Quaternion orientation = Quaternion.LookRotation( ( m_Target.transform.position - transform.position ).normalized );
-		GameObject bulletGO = PoolManager.Spawn( m_BulletPrefab, transform.position, orientation );
+		GameObject bulletGO = PoolsManager.Spawn( m_BulletPrefab, transform.position, orientation );
 		bulletGO.GetComponent< Bullet >().m_Target = m_Target;
 	}
 }
