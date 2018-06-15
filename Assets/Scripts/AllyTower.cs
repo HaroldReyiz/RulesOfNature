@@ -49,6 +49,7 @@ public class AllyTower : MonoBehaviour, IObserver
 	{
 		m_Target = null; // You got to let him go!
 	}
+
 	//// Other Methods ////
 	private void AcquireTarget()
 	{

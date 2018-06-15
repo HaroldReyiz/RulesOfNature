@@ -66,6 +66,11 @@ public class Enemy : MonoBehaviour, IObservable
 	}
 	private void Die()
 	{
+		if( !gameObject.activeSelf )
+		{
+			return;
+		}
+
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
 		PoolsManager.Despawn( gameObject );
 		WaveSpawner.INSTANCE.OnEnemyDied();
