@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ObserverPattern;
-using System;
 
 //// Singleton Class ////
 public class WaveSpawner : MonoBehaviour, IObserver
@@ -31,6 +30,9 @@ public class WaveSpawner : MonoBehaviour, IObserver
 	private         Dictionary< int, Enemy >	m_EnemyDict;
 	private         int							m_RemainingEnemyCount = 0;
 	private         int							m_WaveIdx = 0;
+
+	private static  Vector3                     SPAWNPOINT_VIS_OFFSET = new Vector3( 0.0f, 0.5f, 0.0f );
+	private static  Vector3                     SPAWNPOINT_VIS_SIZE   = new Vector3( 1.0f, 1.0f, 1.0f );
 
 	//// Unity Callbacks ////
 	private void Start()
@@ -73,7 +75,17 @@ public class WaveSpawner : MonoBehaviour, IObserver
 		// Send the first wave.
 		Invoke( "SpawnNextWave", 0.0f );
 	}
-	// TODO: Visualize spawnpoints via OnDrawGizmoXXX callbacks.
+	private void OnDrawGizmosSelected()
+	{	
+		// Spawnpoint Visualization.
+		WaveProperties wave = m_Waves[ m_WaveIdx ];
+		for( int enemyTypeIdx = 0; enemyTypeIdx < wave.m_EnemyTypes.Length; enemyTypeIdx++ )
+		{
+			WaveProperties.EnemyTypeWaveAttributes enemyType = wave.m_EnemyTypes[ enemyTypeIdx ];
+			Gizmos.color = Color.red;
+			Gizmos.DrawWireCube( enemyType.m_SpawnPosition + SPAWNPOINT_VIS_OFFSET, SPAWNPOINT_VIS_SIZE );
+		}
+	}
 
 	//// IObserver Interface ////
 	void IObserver.OnNotify( int enemyID )
