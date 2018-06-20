@@ -3,7 +3,7 @@
 ///   Author: Martin "quill18" Glaude (quill18@quill18.com)
 ///   Extended: Simon "Draugor" Wagner (https://www.twitter.com/Draugor_/)
 ///	  Modified slightly (mostly code reformatting) by Burak Canik for use on game "RulesOfNature".
-///	  Also renamed PoolManager.
+///	  Also renamed PoolsManager.
 ///   Latest Version: https://gist.github.com/quill18/5a7cfffae68892621267
 ///   License: CC0 (http://creativecommons.org/publicdomain/zero/1.0/)
 ///   UPDATES:
@@ -62,6 +62,7 @@ public class PoolsManager
 
 		private readonly	Stack< GameObject >		m_InactiveStack;
 		private readonly	GameObject				m_PooledPrefab;  // The prefab that we are pooling
+		private             Transform               m_ParentTransform;
 
 		//// Constructors ////
 		public Pool( GameObject prefab, int initialQty )
@@ -70,6 +71,7 @@ public class PoolsManager
 
 			m_InactiveStack = new Stack< GameObject >( initialQty );
 			m_PooledPrefab  = prefab;
+			m_ParentTransform = new GameObject( prefab.name + " Pool" ).transform;
 		}
 
 		//// Methods ////
@@ -79,7 +81,7 @@ public class PoolsManager
 			GameObject go;
 			if( m_InactiveStack.Count == 0 ) // Pool empty, instantiate a new object.
 			{
-				go = GameObject.Instantiate( m_PooledPrefab, pos, rot );
+				go = GameObject.Instantiate( m_PooledPrefab, pos, rot, m_ParentTransform );
 
 				// Add this objects instance id to member IDs to keep track of it.
 				m_MemberIDs.Add( go.GetInstanceID() );

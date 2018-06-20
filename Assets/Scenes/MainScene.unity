@@ -11671,6 +11671,15 @@ MonoBehaviour:
   - m_PrefabToBePooled: {fileID: 1604943888975274, guid: ceea0999327c92f46bb586c60886945a,
       type: 2}
     m_StartingQuantity: 15
+  - m_PrefabToBePooled: {fileID: 1353974441683476, guid: 7bd62326ac41b9d419d414b15f5cfa75,
+      type: 2}
+    m_StartingQuantity: 25
+  - m_PrefabToBePooled: {fileID: 1353974441683476, guid: 8aefa340409acb344bf9a3eb8b276106,
+      type: 2}
+    m_StartingQuantity: 25
+  - m_PrefabToBePooled: {fileID: 1353974441683476, guid: 1fbb10d8c90694f4cb20b748f1c9171d,
+      type: 2}
+    m_StartingQuantity: 25
 --- !u!114 &268287401
 MonoBehaviour:
   m_ObjectHideFlags: 0

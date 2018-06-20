@@ -81,9 +81,9 @@ public class BuildManager : MonoBehaviour
 	}
 	public void BuildTower( Vector3 buildPosition )
 	{
-		// Create a new ally tower on this node.
-		Instantiate( m_TowerDict[ m_TowerToBuild ], buildPosition + new Vector3( 0.0f, 0.75f, 0.0f ), Quaternion.identity,
-					 m_AllyTowersParent );
+		// Spawn an ally tower on this node.
+		PoolsManager.Spawn( m_TowerDict[ m_TowerToBuild ], buildPosition + new Vector3( 0.0f, 0.75f, 0.0f ),
+							Quaternion.identity );
 
 		// Update the nav mesh.
 		m_NavMeshSurface.UpdateNavMesh( m_NavMeshSurface.navMeshData );
