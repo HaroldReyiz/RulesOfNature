@@ -13,7 +13,7 @@ public class Node : MonoBehaviour
 			return;
 		}
 
-		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enoug money */ )
+		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
 		{
 			BuildManager.INSTANCE.BuildTower( transform.position );
 		}
@@ -32,7 +32,6 @@ public class Node : MonoBehaviour
 	}
 	private void OnMouseExit()
 	{
-		BuildManager.INSTANCE.DeactivateSelectionGizmos();
 	}
 
 	//// Other Methods ////

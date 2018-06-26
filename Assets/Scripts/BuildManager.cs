@@ -10,16 +10,18 @@ public class BuildManager : MonoBehaviour
 	public static   BuildManager                        INSTANCE;
 
 	[ Header( "Unity Setup" ) ]
+	public          Camera                              m_Cam;
 	public			AllyTower[]                         m_AllyTowerPrefabs;
 	public          NavMeshSurface						m_NavMeshSurface;
 	public          Transform							m_AllyTowersParent;
 	public          GameObject							m_NodeSelectedParticleEffect;
-	public          GameObject							m_PartialGrid;
+	public          GameObject                          m_Grid;
 
 	private         Dictionary< string, GameObject >    m_TowerDict;
 	private         string                              m_TowerToBuild;
 	private         bool                                m_InBuildMode;
-	private static  Vector3								PARTICLE_EFFECT_VERTICAL_OFFSET = new Vector3( 0.0f, 0.7f, 0.0f );
+	private         Material                            m_GridMaterial;
+	private static  Vector3								PARTICLE_EFFECT_VERTICAL_OFFSET = new Vector3( 0.0f, 0.5f, 0.0f );
 
 	//// Properties ////
 	[ HideInInspector ]
@@ -47,6 +49,8 @@ public class BuildManager : MonoBehaviour
 		{
 			m_TowerDict.Add( m_AllyTowerPrefabs[ towerIdx ].m_TowerName, m_AllyTowerPrefabs[ towerIdx ].gameObject );
 		}
+
+		m_GridMaterial = m_Grid.GetComponentInChildren< MeshRenderer >().material;
 	}
 	private void Update()
 	{
@@ -55,6 +59,17 @@ public class BuildManager : MonoBehaviour
 		{
 			m_InBuildMode = false;
 			DeactivateSelectionGizmos();
+		}
+
+		if( m_InBuildMode )
+		{
+			Ray ray = m_Cam.ScreenPointToRay( Input.mousePosition );
+			RaycastHit hit;
+			if( Physics.Raycast( ray, out hit ) )
+			{
+				m_GridMaterial.SetFloat( "_PlayerXPos", ( hit.point.x + 0.5f ) / 32.0f );
+				m_GridMaterial.SetFloat( "_PlayerZPos", ( hit.point.z + 0.5f ) / 32.0f );
+			}
 		}
 	}
 	
@@ -65,14 +80,13 @@ public class BuildManager : MonoBehaviour
 		m_NodeSelectedParticleEffect.transform.position = nodePos + PARTICLE_EFFECT_VERTICAL_OFFSET;
 		m_NodeSelectedParticleEffect.SetActive( true );
 
-		// Move and set active the partial grid.
-		m_PartialGrid.transform.position = nodePos + PARTICLE_EFFECT_VERTICAL_OFFSET;
-		m_PartialGrid.SetActive( true );
+		// Set active the actual grid.
+		m_Grid.SetActive( true );
 	}
 	public void DeactivateSelectionGizmos()
 	{
 		m_NodeSelectedParticleEffect.SetActive( false );
-		m_PartialGrid.SetActive( false );
+		m_Grid.SetActive( false );
 	}
 	public void SelectTowerToBuild( string towerTypeName )
 	{
