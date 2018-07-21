@@ -18,6 +18,13 @@ public class Node : MonoBehaviour
 			BuildManager.INSTANCE.BuildTower( transform.position );
 		}
 	}
+	private void OnMouseOver()
+	{
+		if( Input.GetMouseButton( 0 ) && BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
+		{
+			BuildManager.INSTANCE.BuildTower( transform.position );
+		}
+	}
 	private void OnMouseEnter()
 	{
 		if( EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
