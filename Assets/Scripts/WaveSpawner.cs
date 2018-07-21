@@ -119,7 +119,7 @@ public class WaveSpawner : MonoBehaviour, IObserver
 			}
 
 			m_WaveIdx++;
-			Invoke( "SpawnNextWave", m_Waves[ m_WaveIdx ].m_TimeToNextWave );
+			Invoke( "SpawnNextWave", m_Waves[ m_WaveIdx - 1 ].m_TimeToNextWave );
 		}
 	}
 	private void SpawnNextWave()

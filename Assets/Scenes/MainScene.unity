@@ -11834,12 +11834,14 @@ MonoBehaviour:
         type: 2}
       m_EnemyCount: 5
       m_SpawnPosition: {x: 3.5, y: 0, z: 4.69}
+      m_TimeBetweenSpawns: 0.8
     m_TimeToNextWave: 5
   - m_EnemyTypes:
     - m_EnemyPrefab: {fileID: 1416516370328104, guid: 8c5ab3017c479724188396ff4e8aa6bf,
         type: 2}
       m_EnemyCount: 5
       m_SpawnPosition: {x: 0, y: 0, z: 15}
+      m_TimeBetweenSpawns: 0.8
     m_TimeToNextWave: 0
   m_ActiveEnemies: []
 --- !u!114 &268287400
