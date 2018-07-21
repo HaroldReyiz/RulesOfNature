@@ -16,6 +16,7 @@ public class WaveSpawner : MonoBehaviour, IObserver
 			public GameObject m_EnemyPrefab;
 			public int        m_EnemyCount;
 			public Vector3    m_SpawnPosition;
+			public float      m_TimeBetweenSpawns = 1.0f;
 		}
 
 		public	EnemyTypeWaveAttributes[]	m_EnemyTypes;
@@ -76,14 +77,24 @@ public class WaveSpawner : MonoBehaviour, IObserver
 		Invoke( "SpawnNextWave", 0.0f );
 	}
 	private void OnDrawGizmosSelected()
-	{	
+	{
 		// Spawnpoint Visualization.
-		WaveProperties wave = m_Waves[ m_WaveIdx ];
-		for( int enemyTypeIdx = 0; enemyTypeIdx < wave.m_EnemyTypes.Length; enemyTypeIdx++ )
+		for( int waveIdx = 0 ; waveIdx < m_Waves.Length ; waveIdx++ )
 		{
-			WaveProperties.EnemyTypeWaveAttributes enemyType = wave.m_EnemyTypes[ enemyTypeIdx ];
-			Gizmos.color = Color.red;
-			Gizmos.DrawWireCube( enemyType.m_SpawnPosition + SPAWNPOINT_VIS_OFFSET, SPAWNPOINT_VIS_SIZE );
+			WaveProperties wave = m_Waves[ waveIdx ];
+			for( int enemyTypeIdx = 0 ; enemyTypeIdx < wave.m_EnemyTypes.Length ; enemyTypeIdx++ )
+			{
+				WaveProperties.EnemyTypeWaveAttributes enemyType = wave.m_EnemyTypes[ enemyTypeIdx ];
+				if( waveIdx == m_WaveIdx )
+				{
+					Gizmos.color = Color.red;
+				}
+				else
+				{
+					Gizmos.color = Color.white;
+				}
+				Gizmos.DrawWireCube( enemyType.m_SpawnPosition + SPAWNPOINT_VIS_OFFSET, SPAWNPOINT_VIS_SIZE );
+			}
 		}
 	}
 
@@ -124,10 +135,10 @@ public class WaveSpawner : MonoBehaviour, IObserver
 		m_RemainingEnemyCount += enemyType.m_EnemyCount;
 		for( int enemyIdx = 0; enemyIdx < enemyType.m_EnemyCount; enemyIdx++ )
 		{
-			// Spawn an enemy of this type each 2 seconds.
+			// Spawn an enemy of this type each m_TimeBetweenSpawns seconds.
 			GameObject enemyGO = PoolsManager.Spawn( enemyType.m_EnemyPrefab, enemyType.m_SpawnPosition, Quaternion.identity );
 			m_ActiveEnemies.Add( m_EnemyDict[ enemyGO.GetInstanceID() ] );
-			yield return new WaitForSeconds( 2.0f );
+			yield return new WaitForSeconds( enemyType.m_TimeBetweenSpawns );
 		}
 	}
 }
