@@ -2,6 +2,9 @@
 using ObserverPattern;
 using System.Collections.Generic;
 
+/// <summary>
+/// Observes an enemy (current target) so that it can know when the enemy died (and got deactivated) and move on.
+/// </summary>
 public class AllyTower : MonoBehaviour, IObserver
 {
 	//// Fields ////
@@ -15,7 +18,7 @@ public class AllyTower : MonoBehaviour, IObserver
 
 	private         float		    m_AttackInterval;
 	private			Enemy			m_Target;
-	private         bool            m_IsAttacking;
+	private         bool            m_IsAttacking = false;
 	private         List< Enemy >   m_ActiveEnemies;
 
 	//// Unity Callbacks ////

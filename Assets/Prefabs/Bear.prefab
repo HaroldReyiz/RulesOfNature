@@ -111,6 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StartHealth: 100
   m_MoveSpeed: 3.5
+  m_AttackRange: 5
+  m_AttackDamage: 20
+  m_AttacksPerSecond: 1
   m_Agent: {fileID: 195462989798945868}
   m_Meshes:
   - {fileID: 4300000, guid: 2a61734f66cace44bac5327b6f39b04a, type: 3}
@@ -134,11 +137,11 @@ NavMeshAgent:
   m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 180
-  m_StoppingDistance: 1.5
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0.5
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4

@@ -4,7 +4,11 @@ using UnityEngine;
 using ObserverPattern;
 
 //// Singleton Class ////
-public class WaveSpawner : MonoBehaviour, IObserver
+/// <summary>
+/// Observes enemies to keep track of their count etc.
+/// Is observed by GameManager so that the GameManager can be notified when there are no more enemies left (game over).
+/// </summary>
+public class WaveSpawner : MonoBehaviour, IObserver, IObservable
 {
 	//// Fields ////
 	[ System.Serializable ]
@@ -34,6 +38,9 @@ public class WaveSpawner : MonoBehaviour, IObserver
 
 	private static  Vector3                     SPAWNPOINT_VIS_OFFSET = new Vector3( 0.0f, 0.5f, 0.0f );
 	private static  Vector3                     SPAWNPOINT_VIS_SIZE   = new Vector3( 1.0f, 1.0f, 1.0f );
+
+	// Other.
+	private         List< IObserver >			m_Observers = new List< IObserver >();
 
 	//// Unity Callbacks ////
 	private void Start()
@@ -101,19 +108,37 @@ public class WaveSpawner : MonoBehaviour, IObserver
 	//// IObserver Interface ////
 	void IObserver.OnNotify( int enemyID )
 	{
-		// Enemy died. Remove it from active enemies list.
-		m_ActiveEnemies.Remove( m_EnemyDict[ enemyID ] );
+		OnEnemyDied( enemyID );
+	}
+
+	//// IObservable Interface ////
+	void IObservable.Subscribe( IObserver observer )
+	{
+		if( !m_Observers.Contains( observer ) )
+		{
+			m_Observers.Add( observer );
+		}
+	}
+	void IObservable.Unsubscribe( IObserver observer )
+	{
+		if( m_Observers.Contains( observer ) )
+		{
+			m_Observers.Remove( observer );
+		}
 	}
 
 	//// Other Methods ////
-	public void OnEnemyDied()
+	private void OnEnemyDied( int enemyID )
 	{
+		PoolsManager.Despawn( m_EnemyDict[ enemyID ].gameObject );
+		m_ActiveEnemies.Remove( m_EnemyDict[ enemyID ] );
 		m_RemainingEnemyCount--;
+
 		if( m_RemainingEnemyCount == 0 )
 		{
-			if( m_WaveIdx == m_Waves.Length - 1 )
+			if( m_WaveIdx == m_Waves.Length - 1 ) // All enemies are dead. Notify someone!
 			{
-				Debug.Log( "Game over! You won!" );
+				Notify();
 				enabled = false;
 				return;
 			}
@@ -138,7 +163,17 @@ public class WaveSpawner : MonoBehaviour, IObserver
 			// Spawn an enemy of this type each m_TimeBetweenSpawns seconds.
 			GameObject enemyGO = PoolsManager.Spawn( enemyType.m_EnemyPrefab, enemyType.m_SpawnPosition, Quaternion.identity );
 			m_ActiveEnemies.Add( m_EnemyDict[ enemyGO.GetInstanceID() ] );
+			( m_EnemyDict[ enemyGO.GetInstanceID() ] as IObservable ).Subscribe( this );
 			yield return new WaitForSeconds( enemyType.m_TimeBetweenSpawns );
 		}
+	}
+	private void Notify()
+	{
+		foreach( IObserver observer in m_Observers )
+		{
+			observer.OnNotify( GetInstanceID() ); // ID of the WaveSpawner component, not the gameObject itself!.
+		}
+
+		m_Observers.Clear(); // No need for further notifications.
 	}
 }
