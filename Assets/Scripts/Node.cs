@@ -9,9 +9,14 @@ public class Node : MonoBehaviour
 	//// Unity Callbacks ////
 	private void OnMouseDown()
 	{
-		if( m_IsOccupiedByTower || EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
+		if( m_IsOccupiedByTower /*|| EventSystem.current.IsPointerOverGameObject()*/ )
 		{
 			return;
+		}
+
+		if( Input.GetButtonUp( "Fire3" ) ) // Fire3 = Left-Shift Button on PC.
+		{
+			BuildManager.INSTANCE.AbandonMultipleBuildMode();
 		}
 
 		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
@@ -27,27 +32,24 @@ public class Node : MonoBehaviour
 			return;
 		}
 
-		if( Input.GetMouseButton( 0 ) && BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
+		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
 		{
-			BuildManager.INSTANCE.BuildTower( transform.position );
-			m_IsOccupiedByTower = true;
-		}
-	}
-	private void OnMouseEnter()
-	{
-		if( m_IsOccupiedByTower || EventSystem.current.IsPointerOverGameObject() ) // Check if we clicked on an UI object.
-		{
-			return;
-		}
+			if( Input.GetButtonDown( "Fire3" ) ) // Fire3 = Left-Shift Button on PC.
+			{
+				BuildManager.INSTANCE.SetBuildStartPosition( transform.position );
+			}
 
-		if( BuildManager.INSTANCE.IsInBuildMode )
-		{
-			BuildManager.INSTANCE.ActivateSelectionGizmos( transform.position );
+			if( Input.GetButton( "Fire3" ) ) // Fire3 = Left-Shift Button on PC.
+			{
+				BuildManager.INSTANCE.SetBuildEndPosition( transform.position );
+				// TODO: Draw a ui of line of nodes to build on.
+			}
+			else
+			{
+				BuildManager.INSTANCE.AbandonMultipleBuildMode();
+			}
 		}
 	}
-	private void OnMouseExit()
-	{
-	}
-
+	
 	//// Other Methods ////
 }
