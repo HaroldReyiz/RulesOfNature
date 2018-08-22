@@ -32,7 +32,14 @@ public class Bullet : MonoBehaviour
 	//// Other Methods ////
 	private void CollideWithTarget()
 	{
-		m_Target.TakeDamage( m_Damage );
-		PoolsManager.Despawn( gameObject );
+		if( m_Target.enabled )
+		{
+			m_Target.TakeDamage( m_Damage );
+			PoolsManager.Despawn( gameObject );
+		}
+		else
+		{
+			m_Target = null;
+		}
 	}
 }

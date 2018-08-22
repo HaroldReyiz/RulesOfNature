@@ -53,13 +53,13 @@ public class Enemy : MonoBehaviour, IObservable
 		m_Agent.SetDestination( m_Goal.transform.position );
 
 		// Check if we've reached the "goal" (human).
-		if( !m_Agent.pathPending )
+		if( !m_IsAttacking )
 		{
-			if( m_Agent.remainingDistance <= m_Agent.stoppingDistance )
+			if( !m_Agent.pathPending )
 			{
-				if( !m_Agent.hasPath || m_Agent.velocity.sqrMagnitude == 0f )
+				if( m_Agent.remainingDistance <= m_Agent.stoppingDistance )
 				{
-					if( !m_IsAttacking )
+					if( !m_Agent.hasPath || m_Agent.velocity.sqrMagnitude == 0f )
 					{
 						InvokeRepeating( "AttackHuman", 0.0f, m_AttackInterval );
 						m_IsAttacking = true;
@@ -106,14 +106,9 @@ public class Enemy : MonoBehaviour, IObservable
 		m_Observers.Clear(); // No need for further notifications.
 	}
 
-	//// Combat Related ////
+	//// Combat ////
 	public void TakeDamage( float amount )
 	{
-		if( !gameObject.activeSelf )
-		{
-			return;
-		}
-
 		m_Health -= amount;
 
 		if( m_Health <= 0.0f )
@@ -127,13 +122,10 @@ public class Enemy : MonoBehaviour, IObservable
 	}
 	private void Die()
 	{
-		if( !gameObject.activeSelf )
-		{
-			return;
-		}
-
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
 		Notify();
+		CancelInvoke( "AttackHuman" );
+		enabled = false;
 	}
 	private void ResetAttributes() // Call this when an enemy is spawned from the pool.
 	{
