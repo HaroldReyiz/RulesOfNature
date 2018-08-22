@@ -21,20 +21,18 @@ public class Enemy : MonoBehaviour, IObservable
 	[ Header( "Unity Setup" ) ]
 	public static	GameObject			m_Goal;
 	public			NavMeshAgent		m_Agent;
-	public          Mesh[]              m_Meshes; // 0: Idle, 1: Run01, 2: Run02.
-	public          Material[]          m_Materials; // 0: Idle, 1: Run01, 2: Run02.
-	public			float				m_AnimFrequency = 0.2f;
 
 	// Attributes.
 	private         float               m_Health;
 	private         bool                m_IsAttacking = false;
 	private         float               m_AttackInterval;
 
-	// Other.
+	// Components.
 	private         MeshFilter			m_MeshFilter;
 	private         MeshRenderer		m_MeshRenderer;
-	private         float               m_AnimTimer;
-	private         int                 m_AnimIdx = 0; // 0: Idle, 1: Run01, 2: Run02.
+	private         Animator            m_Animator;
+
+	// IObservable Related.	
 	private         List< IObserver >	m_Observers = new List< IObserver >();
 
 	//// Unity Callbacks ////
@@ -43,18 +41,18 @@ public class Enemy : MonoBehaviour, IObservable
 		m_Health         = m_StartHealth;
 		m_AttackInterval = 1.0f / m_AttacksPerSecond;
 
-		m_AnimTimer      = m_AnimFrequency;
-
 		m_Goal           = GameObject.FindGameObjectWithTag( "Goal" );
 		m_Agent.speed    = m_MoveSpeed;
-		m_MeshFilter     = GetComponent< MeshFilter >();
+
+		m_MeshFilter     = GetComponent< MeshFilter   >();
 		m_MeshRenderer   = GetComponent< MeshRenderer >();
+		m_Animator		 = GetComponent< Animator     >();
 	}
 	private void Update()
 	{
 		m_Agent.SetDestination( m_Goal.transform.position );
 
-		// Check if we've reached the destination (human).
+		// Check if we've reached the "goal" (human).
 		if( !m_Agent.pathPending )
 		{
 			if( m_Agent.remainingDistance <= m_Agent.stoppingDistance )
@@ -69,25 +67,10 @@ public class Enemy : MonoBehaviour, IObservable
 				}
 			}
 		}
-
-		if( m_Agent.velocity.sqrMagnitude > 0.005f ) // Walking animation.
-		{
-			if( m_AnimTimer <= 0.0f )
-			{
-				m_AnimIdx = ( m_AnimIdx + 1 ) % 3;
-				UpdateAnimation();
-				m_AnimTimer = m_AnimFrequency;
-			}
-			else
-			{
-				m_AnimTimer -= Time.deltaTime;
-			}
-		}
-		else if( m_AnimIdx != 0 ) // Idle animation.
-		{
-			m_AnimIdx = 0;
-			UpdateAnimation();
-		}
+	}
+	private void LateUpdate()
+	{
+		Animate();
 	}
 	private void OnEnable()
 	{
@@ -113,8 +96,17 @@ public class Enemy : MonoBehaviour, IObservable
 			m_Observers.Remove( observer );
 		}
 	}
+	private void Notify()
+	{
+		foreach( IObserver observer in m_Observers )
+		{
+			observer.OnNotify( gameObject.GetInstanceID() ); // ID of the gameObject itself.
+		}
 
-	//// Other Methods ////
+		m_Observers.Clear(); // No need for further notifications.
+	}
+
+	//// Combat Related ////
 	public void TakeDamage( float amount )
 	{
 		if( !gameObject.activeSelf )
@@ -143,22 +135,21 @@ public class Enemy : MonoBehaviour, IObservable
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
 		Notify();
 	}
-	private void UpdateAnimation()
-	{
-		m_MeshFilter.mesh       = m_Meshes[ m_AnimIdx ];
-		m_MeshRenderer.material = m_Materials[ m_AnimIdx ];
-	}
-	private void Notify()
-	{
-		foreach( IObserver observer in m_Observers )
-		{
-			observer.OnNotify( gameObject.GetInstanceID() ); // ID of the gameObject itself.
-		}
-
-		m_Observers.Clear(); // No need for further notifications.
-	}
 	private void ResetAttributes() // Call this when an enemy is spawned from the pool.
 	{
 		m_Health = m_StartHealth;
+	}
+
+	//// Animation ////
+	private void Animate()
+	{
+		if( m_Agent.velocity.sqrMagnitude > 0.005f ) // Run animation.
+		{
+			m_Animator.SetBool( "Running", true );
+		}
+		else // Idle animation.
+		{
+			m_Animator.SetBool( "Running", false );
+		}
 	}
 }

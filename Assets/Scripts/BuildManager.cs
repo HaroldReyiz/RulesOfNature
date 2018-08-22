@@ -13,7 +13,6 @@ public class BuildManager : MonoBehaviour
 	public          Camera                              m_Cam;
 	public			AllyTower[]                         m_AllyTowerPrefabs;
 	public          NavMeshSurface						m_NavMeshSurface;
-	public          Transform							m_AllyTowersParent;
 	public          GameObject							m_BuildStartPosEffect;
 	public          GameObject							m_BuildEndPosEffect;
 	public          GameObject                          m_Grid;

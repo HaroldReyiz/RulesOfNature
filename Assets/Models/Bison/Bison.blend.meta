@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: 42ee20a187b65884e863f96e6d572162
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Armature
+    100002: BackLeg_l
+    100004: BackLeg_r
+    100006: //RootNode
+    100008: Bison_Mesh
+    100010: Face
+    100012: FrontLeg_l
+    100014: FrontLeg_r
+    100016: Spine1
+    100018: Spine2
+    100020: Tail1
+    100022: Tail2
+    100024: Tail3
+    400000: Armature
+    400002: BackLeg_l
+    400004: BackLeg_r
+    400006: //RootNode
+    400008: Bison_Mesh
+    400010: Face
+    400012: FrontLeg_l
+    400014: FrontLeg_r
+    400016: Spine1
+    400018: Spine2
+    400020: Tail1
+    400022: Tail2
+    400024: Tail3
+    2100000: palette__Untitled
+    4300000: Bison_Mesh
+    7400000: Default Take
+    9500000: //RootNode
+    13700000: Bison_Mesh
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: palette__Untitled
+    second: {fileID: 2100000, guid: 15cca85365319af41a57e54eb78ebd9b, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Armature/Spine1
+    - Armature/Spine1/Spine2
+    - Armature/Spine1/Spine2/Face
+    - Armature/Spine1/Tail1
+    - Armature/Spine1/Tail1/Tail2
+    - Armature/Spine1/Tail1/Tail2/Tail3
+    - Armature/BackLeg_l
+    - Armature/BackLeg_r
+    - Armature/FrontLeg_l
+    - Armature/FrontLeg_r
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.05
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Armature
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
