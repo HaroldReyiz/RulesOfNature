@@ -47,26 +47,12 @@ public class Enemy : MonoBehaviour, IObservable
 		m_MeshFilter     = GetComponent< MeshFilter   >();
 		m_MeshRenderer   = GetComponent< MeshRenderer >();
 		m_Animator		 = GetComponent< Animator     >();
+
+		m_Agent.SetDestination( m_Goal.transform.position );
+		InvokeRepeating( "AttackWhenReady", 0.0f, 0.1f ); // Check if we reached the human (and start attacking) every 0.1 sec.
 	}
 	private void Update()
 	{
-		m_Agent.SetDestination( m_Goal.transform.position );
-
-		// Check if we've reached the "goal" (human).
-		if( !m_IsAttacking )
-		{
-			if( !m_Agent.pathPending )
-			{
-				if( m_Agent.remainingDistance <= m_Agent.stoppingDistance )
-				{
-					if( !m_Agent.hasPath || m_Agent.velocity.sqrMagnitude == 0f )
-					{
-						InvokeRepeating( "AttackHuman", 0.0f, m_AttackInterval );
-						m_IsAttacking = true;
-					}
-				}
-			}
-		}
 	}
 	private void LateUpdate()
 	{
@@ -120,11 +106,29 @@ public class Enemy : MonoBehaviour, IObservable
 	{
 		GameManager.INSTANCE.m_Human.TakeDamage( m_AttackDamage );
 	}
+	private void AttackWhenReady()
+	{
+		// Check if we've reached the "goal" (human).
+		if( !m_IsAttacking )
+		{
+			if( !m_Agent.pathPending )
+			{
+				if( m_Agent.remainingDistance <= m_Agent.stoppingDistance )
+				{
+					if( !m_Agent.hasPath || m_Agent.velocity.sqrMagnitude == 0f )
+					{
+						InvokeRepeating( "AttackHuman", 0.0f, m_AttackInterval );
+						m_IsAttacking = true;
+					}
+				}
+			}
+		}
+	}
 	private void Die()
 	{
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
 		Notify();
-		CancelInvoke( "AttackHuman" );
+		CancelInvoke();
 	}
 	private void ResetAttributes() // Call this when an enemy is spawned from the pool.
 	{
