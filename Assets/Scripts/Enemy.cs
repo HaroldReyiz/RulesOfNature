@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour, IObservable
 	{
 		m_Health -= amount;
 
-		if( m_Health <= 0.0f )
+		if( m_Health <= 0.0f && m_Health + amount > 0.0f ) // Second check is there to make sure the enemy only dies once.
 		{
 			Die();
 		}
@@ -125,7 +125,6 @@ public class Enemy : MonoBehaviour, IObservable
 		Debug.Log( string.Format( "Enemy {0} died.", name ) );
 		Notify();
 		CancelInvoke( "AttackHuman" );
-		enabled = false;
 	}
 	private void ResetAttributes() // Call this when an enemy is spawned from the pool.
 	{
