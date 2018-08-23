@@ -28,9 +28,10 @@ public class Enemy : MonoBehaviour, IObservable
 	private         float               m_AttackInterval;
 
 	// Components.
-	private         MeshFilter			m_MeshFilter;
-	private         MeshRenderer		m_MeshRenderer;
 	private         Animator            m_Animator;
+
+	// Other.
+	private         bool                m_SpawnedForTheFirstTime = true;
 
 	// IObservable Related.	
 	private         List< IObserver >	m_Observers = new List< IObserver >();
@@ -38,18 +39,14 @@ public class Enemy : MonoBehaviour, IObservable
 	//// Unity Callbacks ////
 	private void Start()
 	{
-		m_Health         = m_StartHealth;
-		m_AttackInterval = 1.0f / m_AttacksPerSecond;
+		m_Animator		 = GetComponent< Animator >();
 
 		m_Goal           = GameObject.FindGameObjectWithTag( "Goal" );
-		m_Agent.speed    = m_MoveSpeed;
-
-		m_MeshFilter     = GetComponent< MeshFilter   >();
-		m_MeshRenderer   = GetComponent< MeshRenderer >();
-		m_Animator		 = GetComponent< Animator     >();
 
 		m_Agent.SetDestination( m_Goal.transform.position );
 		InvokeRepeating( "AttackWhenReady", 0.0f, 0.1f ); // Check if we reached the human (and start attacking) every 0.1 sec.
+
+		m_SpawnedForTheFirstTime = false;
 	}
 	private void Update()
 	{
@@ -60,7 +57,14 @@ public class Enemy : MonoBehaviour, IObservable
 	}
 	private void OnEnable()
 	{
-		ResetAttributes();
+		ResetAttributes(); // Health, movespeed etc.
+
+		if( !m_SpawnedForTheFirstTime )
+		{
+			m_Agent.SetDestination( m_Goal.transform.position );
+			// Check if we reached the human (and start attacking) every 0.1 sec.
+			InvokeRepeating( "AttackWhenReady", 0.0f, 0.1f );
+		}
 	}
 	private void OnDrawGizmosSelected()
 	{
@@ -130,9 +134,12 @@ public class Enemy : MonoBehaviour, IObservable
 		Notify();
 		CancelInvoke();
 	}
-	private void ResetAttributes() // Call this when an enemy is spawned from the pool.
+	private void ResetAttributes() // Call this when an enemy is spawned/respawned from the pool.
 	{
-		m_Health = m_StartHealth;
+		m_Health         = m_StartHealth;
+		m_AttackInterval = 1.0f / m_AttacksPerSecond;
+
+		m_Agent.speed    = m_MoveSpeed;
 	}
 
 	//// Animation ////
