@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 42ee20a187b65884e863f96e6d572162
+guid: 2d5041744867a3647aee7aa14b050541
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -7,7 +7,7 @@ ModelImporter:
     100002: BackLeg_l
     100004: BackLeg_r
     100006: //RootNode
-    100008: Bison_Mesh
+    100008: Elephant_Mesh
     100010: Face
     100012: FrontLeg_l
     100014: FrontLeg_r
@@ -16,11 +16,14 @@ ModelImporter:
     100020: Tail1
     100022: Tail2
     100024: Tail3
+    100026: Trunk1
+    100028: Trunk2
+    100030: Trunk3
     400000: Armature
     400002: BackLeg_l
     400004: BackLeg_r
     400006: //RootNode
-    400008: Bison_Mesh
+    400008: Elephant_Mesh
     400010: Face
     400012: FrontLeg_l
     400014: FrontLeg_r
@@ -29,17 +32,20 @@ ModelImporter:
     400020: Tail1
     400022: Tail2
     400024: Tail3
-    2100000: palette__Untitled
-    4300000: Bison_Mesh
+    400026: Trunk1
+    400028: Trunk2
+    400030: Trunk3
+    2100000: palette__ElephantoTexture
+    4300000: Elephant_Mesh
     7400000: Default Take
     9500000: //RootNode
-    13700000: Bison_Mesh
+    13700000: Elephant_Mesh
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: palette__Untitled
-    second: {fileID: 2100000, guid: 15cca85365319af41a57e54eb78ebd9b, type: 2}
+      name: palette__ElephantoTexture
+    second: {fileID: 2100000, guid: cd9d7392ebb3eb041b7ef9e167871c7f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -64,23 +70,13 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths:
-    - Armature/Spine1
-    - Armature/Spine1/Spine2
-    - Armature/Spine1/Spine2/Face
-    - Armature/Spine1/Tail1
-    - Armature/Spine1/Tail1/Tail2
-    - Armature/Spine1/Tail1/Tail2/Tail3
-    - Armature/BackLeg_l
-    - Armature/BackLeg_r
-    - Armature/FrontLeg_l
-    - Armature/FrontLeg_r
+    extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.04
+    globalScale: 0.05
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
