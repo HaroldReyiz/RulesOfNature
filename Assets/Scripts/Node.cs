@@ -16,7 +16,7 @@ public class Node : MonoBehaviour
 
 		if( Input.GetButtonUp( "Fire3" ) ) // Fire3 = Left-Shift Button on PC.
 		{
-			BuildManager.INSTANCE.AbandonMultipleBuildMode();
+			BuildManager.INSTANCE.DisableMultiBuildMode();
 		}
 
 		if( BuildManager.INSTANCE.IsInBuildMode /*&& player has enough money */ )
@@ -36,6 +36,7 @@ public class Node : MonoBehaviour
 		{
 			if( Input.GetButtonDown( "Fire3" ) ) // Fire3 = Left-Shift Button on PC.
 			{
+				BuildManager.INSTANCE.EnableMultiBuildMode();
 				BuildManager.INSTANCE.SetBuildStartPosition( transform.position );
 			}
 
@@ -46,7 +47,7 @@ public class Node : MonoBehaviour
 			}
 			else
 			{
-				BuildManager.INSTANCE.AbandonMultipleBuildMode();
+				BuildManager.INSTANCE.DisableMultiBuildMode();
 			}
 		}
 	}

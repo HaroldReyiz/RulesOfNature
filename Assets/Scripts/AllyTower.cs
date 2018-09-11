@@ -97,16 +97,16 @@ public class AllyTower : MonoBehaviour, IObserver
 	}
 	private void LockOnTarget()
 	{
-		Vector3 dir = m_Target.transform.position - transform.position;
-		Quaternion lookRotation = Quaternion.LookRotation( dir );
-		Vector3 rotEuler = Quaternion.Lerp( transform.rotation, lookRotation, Time.deltaTime * m_TurnSpeed ).eulerAngles;
-		transform.rotation = Quaternion.Euler( rotEuler );
+		Vector3		dir      = m_Target.transform.position - transform.position;
+		Quaternion	lookRot  = Quaternion.LookRotation( dir );
+		Vector3		rotEuler = Quaternion.Lerp( transform.rotation, lookRot, Time.deltaTime * m_TurnSpeed ).eulerAngles;
+		transform.rotation   = Quaternion.Euler( rotEuler );
 	}
 	private void Attack()
 	{
 		// Emit a bullet. Bullet will do the actual damage when it collides with the enemy.
 		Quaternion orientation = Quaternion.LookRotation( ( m_Target.transform.position - transform.position ).normalized );
-		GameObject bulletGO = PoolsManager.Spawn( m_BulletPrefab, transform.position, orientation );
+		GameObject bulletGO	   = PoolsManager.Spawn( m_BulletPrefab, transform.position, orientation );
 		bulletGO.GetComponent< Bullet >().m_Target = m_Target;
 	}
 	// This method looks starts attacking the target. When the target is dead or out of range, it cancels its 

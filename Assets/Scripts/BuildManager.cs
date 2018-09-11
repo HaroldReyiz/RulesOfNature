@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -94,28 +94,11 @@ public class BuildManager : MonoBehaviour
 
 		if( m_InBuildMode )
 		{
-			Ray ray = m_Cam.ScreenPointToRay( Input.mousePosition );
-			RaycastHit hit;
-			if( Physics.Raycast( ray, out hit ) )
-			{
-				m_GridMaterial.SetFloat( "_PlayerXPos", ( hit.point.x ) / 32.0f );
-				m_GridMaterial.SetFloat( "_PlayerZPos", ( hit.point.z ) / 32.0f );
-			}
+			SetRevealShaderParameters();
 		}
 	}
-	
+
 	//// Other Methods ////
-	public void ActivateSelectionUIAndFX()
-	{	
-		// Set active the actual grid.
-		m_Grid.SetActive( true );
-	}
-	public void DeactivateSelectionUIAndFX()
-	{
-		m_BuildStartPosEffect.SetActive( false );
-		m_BuildEndPosEffect.SetActive( false );
-		m_Grid.SetActive( false );
-	}
 	public void SelectTowerToBuild( string towerTypeName )
 	{
 		m_TowerToBuild = towerTypeName;
@@ -152,11 +135,11 @@ public class BuildManager : MonoBehaviour
 	public void SetBuildStartPosition( Vector3 startPos )
 	{
 		m_BuildStartPos = startPos;
-		m_MultipleBuildMode = true;
 
-		m_BuildStartPosEffect.transform.position = m_BuildStartPos + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_BuildStartPosEffect.transform.position = m_BuildStartPos;
 		m_BuildStartPosEffect.SetActive( true );
 	}
+	// Computes the build end position by projecting the mouse coordinates onto the closer of the x and z axes.
 	public void SetBuildEndPosition( Vector3 currentNodePos )
 	{
 		float deltaX = currentNodePos.x - m_BuildStartPos.x;
@@ -168,14 +151,39 @@ public class BuildManager : MonoBehaviour
 
 		m_BuildEndPos = m_BuildStartPos + m_BuildDirection * ( m_NumTowersToBuild - 1 );
 
-		m_BuildEndPosEffect.transform.position = m_BuildEndPos + PARTICLE_EFFECT_VERTICAL_OFFSET;
+		m_BuildEndPosEffect.transform.position = m_BuildEndPos;
 		m_BuildEndPosEffect.SetActive( true );
 	}
-	public void AbandonMultipleBuildMode()
+	public void EnableMultiBuildMode()
+	{
+		m_MultipleBuildMode = true;
+	}
+	public void DisableMultiBuildMode()
 	{
 		m_MultipleBuildMode = false;
 
 		m_BuildStartPosEffect.SetActive( false );
 		m_BuildEndPosEffect.SetActive( false );
+	}
+	private void ActivateSelectionUIAndFX()
+	{	
+		// Set active the actual grid.
+		m_Grid.SetActive( true );
+	}
+	private void DeactivateSelectionUIAndFX()
+	{
+		m_BuildStartPosEffect.SetActive( false );
+		m_BuildEndPosEffect.SetActive( false );
+		m_Grid.SetActive( false );
+	}
+	private void SetRevealShaderParameters()
+	{
+		Ray ray = m_Cam.ScreenPointToRay( Input.mousePosition );
+		RaycastHit hit;
+		if( Physics.Raycast( ray, out hit ) )
+		{
+			m_GridMaterial.SetFloat( "_PlayerXPos", ( hit.point.x ) / 32.0f );
+			m_GridMaterial.SetFloat( "_PlayerZPos", ( hit.point.z ) / 32.0f );
+		}
 	}
 }
