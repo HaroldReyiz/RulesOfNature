@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using ObserverPattern;
 using System.Collections.Generic;
 using System.Collections;
@@ -17,9 +17,15 @@ public class AllyTower : MonoBehaviour, IObserver
 	[ Header( "Unity Setup" ) ]
 	public          GameObject      m_BulletPrefab;
 
+	// Attributes.
 	private         float		    m_AttackInterval;
-	private			Enemy			m_Target;
 	private         float			m_CooldownTimer;
+
+	// Components.
+	private         Animator        m_Animator;
+
+	// Other.
+	private			Enemy			m_Target;
 	private         List< Enemy >   m_ActiveEnemies;
 
 	//// Properties ////
@@ -36,8 +42,11 @@ public class AllyTower : MonoBehaviour, IObserver
 	private void Start()
 	{
 		m_AttackInterval = 1.0f / m_AttacksPerSecond;
-		m_CooldownTimer = 0.0f;
-		m_ActiveEnemies = FindObjectOfType< WaveSpawner >().m_ActiveEnemies;
+		m_CooldownTimer	 = 0.0f;
+
+		m_Animator		 = GetComponent< Animator >();
+
+		m_ActiveEnemies  = FindObjectOfType< WaveSpawner >().m_ActiveEnemies;
 
 		// Start the "AcquireTarget/AttackWhenReady" cycle by checking for targets every tenth of a second.
 		InvokeRepeating( "AcquireTarget", 0.0f, 0.1f );
@@ -100,7 +109,9 @@ public class AllyTower : MonoBehaviour, IObserver
 		}
 		else if( !OnCooldown )
 		{
+			m_Animator.SetTrigger( "Attacking" );
 			Attack();
+			//m_Animator.SetBool( "Attacking", false );
 			StartCoroutine( "Cooldown" );
 		}
 	}

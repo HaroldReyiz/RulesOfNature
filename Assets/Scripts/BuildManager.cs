@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -26,7 +26,7 @@ public class BuildManager : MonoBehaviour
 	private         int                                 m_NumTowersToBuild;
 	private         bool                                m_InBuildMode;
 	private         Material                            m_GridMaterial;
-	private static  Vector3								PARTICLE_EFFECT_VERTICAL_OFFSET = new Vector3( 0.0f, 0.5f, 0.0f );
+	private static  Vector3								VERTICAL_OFFSET = new Vector3( 0.0f, 0.25f, 0.0f );
 
 	//// Properties ////
 	[ HideInInspector ]
@@ -130,8 +130,8 @@ public class BuildManager : MonoBehaviour
 			{
 				// Spawn an ally tower on this node.
 				PoolsManager.Spawn( m_TowerDict[ m_TowerToBuild ],
-									m_BuildStartPos + m_BuildDirection * nodeIdx + new Vector3( 0.0f, 0.75f, 0.0f ),
-									Quaternion.identity );
+									m_BuildStartPos + m_BuildDirection * nodeIdx + VERTICAL_OFFSET,
+									m_TowerDict[ m_TowerToBuild ].transform.rotation );
 			}
 
 			m_BuildStartPos = m_BuildEndPos; // Update build start position so that it starts from the last position.
@@ -139,8 +139,8 @@ public class BuildManager : MonoBehaviour
 		else
 		{
 			// Spawn an ally tower on this node.
-			PoolsManager.Spawn( m_TowerDict[ m_TowerToBuild ], buildPosition + new Vector3( 0.0f, 0.75f, 0.0f ),
-								Quaternion.identity );
+			PoolsManager.Spawn( m_TowerDict[ m_TowerToBuild ], buildPosition + VERTICAL_OFFSET,
+								m_TowerDict[ m_TowerToBuild ].transform.rotation );
 		}
 
 		// Update the nav mesh.
