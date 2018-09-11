@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using ObserverPattern;
 using System.Collections.Generic;
 using System.Collections;
@@ -13,6 +13,7 @@ public class AllyTower : MonoBehaviour, IObserver
 	public			string			m_TowerName;
 	public          float		    m_AttacksPerSecond = 1.0f;
 	public          float           m_Range;
+	public			float			m_TurnSpeed = 6.0f;
 
 	[ Header( "Unity Setup" ) ]
 	public          GameObject      m_BulletPrefab;
@@ -53,6 +54,10 @@ public class AllyTower : MonoBehaviour, IObserver
 	}
 	private void Update()
 	{
+		if( m_Target != null )
+		{
+			LockOnTarget();
+		}
 	}
 	private void OnDrawGizmosSelected()
 	{
@@ -89,6 +94,13 @@ public class AllyTower : MonoBehaviour, IObserver
 				}
 			}
 		}
+	}
+	private void LockOnTarget()
+	{
+		Vector3 dir = m_Target.transform.position - transform.position;
+		Quaternion lookRotation = Quaternion.LookRotation( dir );
+		Vector3 rotEuler = Quaternion.Lerp( transform.rotation, lookRotation, Time.deltaTime * m_TurnSpeed ).eulerAngles;
+		transform.rotation = Quaternion.Euler( rotEuler );
 	}
 	private void Attack()
 	{
